@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  build:
-    name: Test changed-files
+  test-v34:
+    name: Test changed-files v34
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -18,7 +18,6 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
         fetch-depth: [0, 1]
-        action-version: [main, v34]
     
     steps:
       - uses: actions/checkout@v3
@@ -27,7 +26,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: 'tj-actions/changed-files@${{ matrix.action-version }}'
+        uses: tj-actions/changed-files@v34
 
       - name: List all changed files
         run: |
@@ -37,7 +36,44 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: 'tj-actions/changed-files@${{ matrix.version }}'
+        uses: tj-actions/changed-files@v34
+        with:
+          files: .github/**
+
+      - name: Run step if any file(s) in the .github folder change
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the .github folder has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+          
+  test-main:
+    name: Test changed-files
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
+        fetch-depth: [0, 1]
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ matrix.fetch-depth }}
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@main
+
+      - name: List all changed files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+      - name: Get changed files in the .github folder
+        id: changed-files-specific
+        uses: tj-actions/changed-files@main
         with:
           files: .github/**
 
