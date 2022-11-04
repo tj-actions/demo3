@@ -28,11 +28,11 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v34
 
-      - name: List all changed files
+      - name: Show output
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
@@ -65,11 +65,11 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@main
 
-      - name: List all changed files
+      - name: Show output
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
-          done
+          echo '${{ toJSON(steps.changed-files.outputs) }}'
+        shell:
+          bash
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
