@@ -27,7 +27,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@${{ matrix.action-version }}
+        uses: 'tj-actions/changed-files@${{ matrix.action-version }}'
 
       - name: List all changed files
         run: |
@@ -37,7 +37,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@${{ matrix.version }}
+        uses: 'tj-actions/changed-files@${{ matrix.version }}'
         with:
           files: .github/**
 
