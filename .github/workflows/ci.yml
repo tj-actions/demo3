@@ -10,23 +10,24 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.platform }}
     name: Test changed-files
+    runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
-        version: ['main', 'v34']
+        fetch-depth: [0, 1]
+        action-version: [main, v34]
     
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@${{ matrix.version }}
+        uses: tj-actions/changed-files@${{ matrix.action-version }}
 
       - name: List all changed files
         run: |
