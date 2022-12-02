@@ -61,6 +61,11 @@ jobs:
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
       
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - run: git remote -v
 
       - name: Get changed files
