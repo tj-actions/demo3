@@ -80,7 +80,7 @@ jobs:
       
       - name: Show GITHUB_OUTPUT
         run: |
-          echo $GITHUB_OUTPUT
+          echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
 
       - name: Get changed files in the .github folder
