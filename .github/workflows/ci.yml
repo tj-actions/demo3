@@ -80,7 +80,7 @@ jobs:
       
       - name: Show GITHUB_OUTPUT
         run: |
-          cat "$GITHUB_OUTPUT"
+          echo $GITHUB_OUTPUT
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
