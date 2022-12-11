@@ -81,6 +81,7 @@ jobs:
       - name: Show GITHUB_OUTPUT
         run: |
           echo $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
