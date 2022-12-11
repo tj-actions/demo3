@@ -77,6 +77,10 @@ jobs:
           echo '${{ toJSON(steps.changed-files.outputs) }}'
         shell:
           bash
+      
+      - name: Show GITHUB_OUTPUT
+        run: |
+          cat "$GITHUB_OUTPUT"
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
