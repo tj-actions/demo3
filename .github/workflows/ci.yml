@@ -78,10 +78,9 @@ jobs:
         shell:
           bash
       
-      - name: Show GITHUB_OUTPUT
+      - name: Show step changed files
         run: |
-          echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
+          echo '${{ toJSON(steps.changed-files) }}'
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
