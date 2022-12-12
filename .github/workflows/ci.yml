@@ -36,7 +36,8 @@ jobs:
         id: merge_base
         if: always()
       
-      - run: echo "The merge base of the current branch and the base branch is: ${{ steps.merge_base.outputs.id }}"
+      - run: |
+           echo "The merge base of the current branch and the base branch is: ${{ steps.merge_base.outputs.id }}"
         shell: bash
         if: always()
 
