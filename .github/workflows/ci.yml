@@ -29,7 +29,7 @@ jobs:
         uses: tj-actions/changed-files@v34
       
       - run: |
-          echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
+          echo "id=$(git diff --name-only --ignore-submodules=all $GITHUB_EVENT_PULL_REQUEST_BASE_SHA..$GITHUB_SHA)" >> $GITHUB_OUTPUT
         env:
           GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -88,7 +88,7 @@ jobs:
         uses: tj-actions/changed-files@main
       
       - run: |
-          echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
+          echo "id=$(git diff --name-only --ignore-submodules=all $GITHUB_EVENT_PULL_REQUEST_BASE_SHA..$GITHUB_SHA)" >> $GITHUB_OUTPUT
         env:
           GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
