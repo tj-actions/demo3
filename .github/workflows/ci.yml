@@ -20,7 +20,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
         fetch-depth: [0, 1]
-    
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -29,9 +29,9 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
-      
+
       - run: |
-          echo "id=$(git diff --name-only --ignore-submodules=all $GITHUB_EVENT_PULL_REQUEST_BASE_SHA..$GITHUB_SHA)" >> $GITHUB_OUTPUT
+          echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
         env:
           GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -39,7 +39,7 @@ jobs:
         shell: bash
         id: merge_base
         if: always()
-      
+
       - run: |
            echo "The merge base of the current branch and the base branch is: ${{ steps.merge_base.outputs.id }}"
         shell: bash
@@ -62,7 +62,7 @@ jobs:
         run: |
           echo "One or more files in the .github folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
-          
+
   test-main:
     name: Test changed-files
     runs-on: ${{ matrix.platform }}
@@ -72,12 +72,12 @@ jobs:
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
         fetch-depth: [0, 1]
-    
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
-      
+
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -88,9 +88,9 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@main
-      
+
       - run: |
-          echo "id=$(git diff --name-only --ignore-submodules=all $GITHUB_EVENT_PULL_REQUEST_BASE_SHA..$GITHUB_SHA)" >> $GITHUB_OUTPUT
+          echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
         env:
           GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
@@ -98,7 +98,7 @@ jobs:
         shell: bash
         id: merge_base
         if: always()
-      
+
       - run: |
           echo "The merge base of the current branch and the base branch is: ${{ steps.merge_base.outputs.id }}"
         shell: bash
