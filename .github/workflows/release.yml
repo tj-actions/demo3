@@ -35,6 +35,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v35
         with:
+          base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
           files: .github/**
 
       - name: Run step if any file(s) in the .github folder change
