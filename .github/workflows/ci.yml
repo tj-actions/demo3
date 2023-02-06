@@ -91,6 +91,7 @@ jobs:
 
       - run: |
           echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
+          git fetch --no-tags --prune --no-recurse-submodules -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$GITHUB_EVENT_PULL_REQUEST_HEAD_REF" 1>/dev/null
           git diff --name-only --ignore-submodules=all "$GITHUB_EVENT_PULL_REQUEST_HEAD_REF" "refs/remotes/pull/$GITHUB_EVENT_PULL_REQUEST_NUMBER/merge"
         env:
           GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
