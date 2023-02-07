@@ -90,7 +90,7 @@ jobs:
         uses: tj-actions/changed-files@main
 
       - run: |
-          git fetch --no-tags --prune --no-recurse-submodules -u --progress --deepen=50 origin "$GITHUB_EVENT_PULL_REQUEST_BASE_REF:$GITHUB_EVENT_PULL_REQUEST_BASE_REF" 1>/dev/null
+          git fetch --no-tags --prune --no-recurse-submodules -u --progress --deepen=1 origin "$GITHUB_EVENT_PULL_REQUEST_BASE_REF:$GITHUB_EVENT_PULL_REQUEST_BASE_REF" 1>/dev/null
           git fetch --no-tags --prune --no-recurse-submodules -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$GITHUB_EVENT_PULL_REQUEST_HEAD_REF" 1>/dev/null
           echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
           BASE_REF_SHA=$(git rev-parse main)
