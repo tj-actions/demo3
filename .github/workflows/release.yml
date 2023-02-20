@@ -28,7 +28,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@fix/error-fetch-remote-ref-when-using-fetch-depth-of-1
         with:
           base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
 
@@ -40,7 +40,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@fix/error-fetch-remote-ref-when-using-fetch-depth-of-1
         with:
           base_sha: ${{ steps.get-base-sha.outputs.base_sha }}
           files: .github/**
