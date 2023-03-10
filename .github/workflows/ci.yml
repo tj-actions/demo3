@@ -19,7 +19,7 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
-        fetch-depth: [0, 1]
+        fetch-depth: [0, 1, 2]
 
     steps:
       - uses: actions/checkout@v3
@@ -71,7 +71,7 @@ jobs:
       max-parallel: 4
       matrix:
         platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, ubuntu-18.04, windows-2022]
-        fetch-depth: [0, 1]
+        fetch-depth: [0, 1, 2]
 
     steps:
       - uses: actions/checkout@v3

@@ -6,6 +6,6 @@ setup(
   version="0.0.1",
   author="Tonye Jack",
   author_email="jtonye@ymail.com",
-  install_requires=['requests', 'Django'],
+  install_requires=['requests'],
   packages=find_packages(),
 )
