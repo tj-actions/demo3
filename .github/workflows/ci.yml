@@ -28,7 +28,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
 
       - run: |
           echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
@@ -53,7 +53,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v35
+        uses: tj-actions/changed-files@v36
         with:
           files: .github/**
 
