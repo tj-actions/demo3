@@ -12,7 +12,7 @@ on:
 
 jobs:
   test-v35:
-    name: Test changed-files v35
+    name: Test changed-files v36
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
