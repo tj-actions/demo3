@@ -13,8 +13,8 @@ on:
 
 
 jobs:
-  test-v38:
-    name: Test changed-files v38
+  test-latest:
+    name: Test changed-files latest tag
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
@@ -66,7 +66,7 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
   test-main:
-    name: Test changed-files
+    name: Test changed-files main
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
