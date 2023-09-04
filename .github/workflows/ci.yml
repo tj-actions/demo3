@@ -24,7 +24,7 @@ jobs:
         fetch-depth: [0, 1, 2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
 
@@ -76,7 +76,7 @@ jobs:
         fetch-depth: [0, 1, 2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
 
