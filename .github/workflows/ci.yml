@@ -6,29 +6,31 @@ on:
   push:
     branches:
       - main
+  merge_group:
   pull_request:
     branches:
       - main
 
+
 jobs:
-  test-v35:
-    name: Test changed-files v36
+  test-latest:
+    name: Test changed-files latest tag
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
         fetch-depth: [0, 1, 2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v36
+        uses: tj-actions/changed-files@v40
 
       - run: |
           echo "id=$(git merge-base $GITHUB_EVENT_PULL_REQUEST_BASE_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
@@ -53,7 +55,7 @@ jobs:
 
       - name: Get changed files in the .github folder
         id: changed-files-specific
-        uses: tj-actions/changed-files@v36
+        uses: tj-actions/changed-files@v40
         with:
           files: .github/**
 
@@ -64,17 +66,17 @@ jobs:
           echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
 
   test-main:
-    name: Test changed-files
+    name: Test changed-files main
     runs-on: ${{ matrix.platform }}
     strategy:
       fail-fast: false
       max-parallel: 4
       matrix:
-        platform: [ubuntu-latest, ubuntu-22.04, windows-latest, macos-latest, macos-11, windows-2022]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
         fetch-depth: [0, 1, 2]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
 
@@ -117,7 +119,6 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         shell: bash
         id: merge_base
-        if: always()
 
       - run: |
           echo "The merge base of the current branch and the base branch is: ${{ steps.merge_base.outputs.id }}"
