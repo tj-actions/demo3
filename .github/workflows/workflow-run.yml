@@ -26,7 +26,7 @@ jobs:
       
       - name: Get changed files
         id: changed-files
-        uses: ./
+        uses: tj-actions/changed-files@v42
         with:
           base_sha: ${{ github.event.workflow_run.head_branch }}
           sha: ${{ steps.branch-name.outputs.tag }}
@@ -54,7 +54,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: ./
+        uses: tj-actions/changed-files@v42
         with:
           base_sha: ${{ github.event.workflow_run.head_branch }}
           sha: ${{ steps.branch-name.outputs.tag }}
