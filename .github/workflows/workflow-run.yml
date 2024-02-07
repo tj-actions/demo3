@@ -22,11 +22,18 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
 
+      - name: Get Tag
+        id: get-tag
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -vE "^v[0-9]+$" | head -n 2 | tail -n 1)
+          echo "previous_tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
           base_sha: ${{ github.event.workflow_run.head_branch }}
+          sha: ${{ steps.get-tag.outputs.previous_tag }}
         
       - name: Echo list of changed files on success
         run: |
@@ -47,11 +54,18 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_branch }}
 
+      - name: Get Tag
+        id: get-tag
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-v:refname | grep -vE "^v[0-9]+$" | head -n 2 | tail -n 1)
+          echo "previous_tag=$PREVIOUS_TAG" >> "$GITHUB_OUTPUT"
+
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
           base_sha: ${{ github.event.workflow_run.head_branch }}
+          sha: ${{ steps.get-tag.outputs.previous_tag }}
 
       - name: Echo list of changed files on failure
         run: |
