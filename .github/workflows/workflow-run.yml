@@ -1,0 +1,65 @@
+name: Workflow Run Example
+on:
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+    
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get branch names.
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+      
+      - name: Get changed files
+        id: changed-files
+        uses: ./
+        with:
+          base_sha: ${{ github.event.workflow_run.head_branch }}
+          sha: ${{ steps.branch-name.outputs.tag }}
+        
+      - name: Echo list of changed files on success
+        run: |
+          echo "Changed files on success:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
+
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"    
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get branch names.
+        id: branch-names
+        uses: tj-actions/branch-names@v8
+
+      - name: Get changed files
+        id: changed-files
+        uses: ./
+        with:
+          base_sha: ${{ github.event.workflow_run.head_branch }}
+          sha: ${{ steps.branch-name.outputs.tag }}
+
+      - name: Echo list of changed files on failure
+        run: |
+          echo "Changed files on failure:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
