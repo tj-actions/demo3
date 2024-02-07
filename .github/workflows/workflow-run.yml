@@ -20,16 +20,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get branch names.
-        id: branch-names
-        uses: tj-actions/branch-names@v8
-      
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
           base_sha: ${{ github.event.workflow_run.head_branch }}
-          sha: ${{ steps.branch-name.outputs.tag }}
         
       - name: Echo list of changed files on success
         run: |
@@ -48,16 +43,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get branch names.
-        id: branch-names
-        uses: tj-actions/branch-names@v8
-
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
           base_sha: ${{ github.event.workflow_run.head_branch }}
-          sha: ${{ steps.branch-name.outputs.tag }}
 
       - name: Echo list of changed files on failure
         run: |
