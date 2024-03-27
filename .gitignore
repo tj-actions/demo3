@@ -133,3 +133,4 @@ cache/
 
 # IntelliJ
 .idea/
+.DS_Store
