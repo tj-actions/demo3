@@ -91,40 +91,6 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@main
 
-      - run: |
-          git fetch --no-tags --prune --no-recurse-submodules -u --progress --deepen=1 origin "$GITHUB_EVENT_PULL_REQUEST_BASE_REF:$GITHUB_EVENT_PULL_REQUEST_BASE_REF" 1>/dev/null
-          git fetch --no-tags --prune --no-recurse-submodules -u --progress origin pull/"$GITHUB_EVENT_PULL_REQUEST_NUMBER"/head:"$GITHUB_EVENT_PULL_REQUEST_HEAD_REF" 1>/dev/null
-          BASE_REF_SHA=$(git rev-parse main)
-
-          if ! git merge-base "$BASE_REF_SHA" "$GITHUB_SHA"; then
-            echo "Merge base is not in the local history, fetching remote target branch..."
-            for i in {1..10}; do
-              git fetch --no-tags --prune --no-recurse-submodules -u --progress --deepen=50 origin "$GITHUB_EVENT_PULL_REQUEST_BASE_REF:$GITHUB_EVENT_PULL_REQUEST_BASE_REF" 1>/dev/null
-              if git merge-base "$BASE_REF_SHA" "$CURRENT_SHA"; then
-                break
-              fi
-              echo "Merge base is not in the local history, fetching remote target branch again..."
-              echo "Attempt $i/10"
-            done
-          fi
-
-          echo "id=$(git merge-base $BASE_REF_SHA $GITHUB_SHA)" >> $GITHUB_OUTPUT
-          git diff --name-only --ignore-submodules=all "$BASE_REF_SHA"..."$GITHUB_SHA"
-        env:
-          GITHUB_EVENT_PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          GITHUB_EVENT_PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          GITHUB_EVENT_PULL_REQUEST_BASE_REF: ${{ github.event.pull_request.base.ref }}
-          GITHUB_EVENT_PULL_REQUEST_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_SHA: ${{ github.sha }}
-        shell: bash
-        id: merge_base
-
-      - run: |
-          echo "The merge base of the current branch and the base branch is: ${{ steps.merge_base.outputs.id }}"
-        shell: bash
-        if: always()
-
       - name: Show output
         run: |
           echo '${{ toJSON(steps.changed-files.outputs) }}'
