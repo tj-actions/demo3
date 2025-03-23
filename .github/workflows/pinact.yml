@@ -19,4 +19,4 @@ jobs:
       - name: Pin actions
         uses: suzuki-shunsuke/pinact-action@4eb88bc57cde1d55d18615b1f8ccd7216269e6d2 # v0.2.0
         with:
-          github_token: ${{ secret.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
